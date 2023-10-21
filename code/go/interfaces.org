@@ -91,6 +91,13 @@ and can be passed to the ~live()~ function
 An empty interface is basically a blank slate, represented by ~interface {}~, these are useful for passing a value
 of a varying type. For instance:
 #+begin_src go
+package main
+
+import (
+    "fmt"
+    "math/rand"
+)
+
 func unknown(i int) interface{} {
     if i < 0 {
       return true
@@ -100,8 +107,34 @@ func unknown(i int) interface{} {
     }
     if i > 0 {
       return 1
-    }
+    } 
+		return false			
+}
+
+func main() {
+		// Random number between -5 and 5
+    returned := unknown(rand.Intn(11) - 5)
+		fmt.Printf("Type of returned: %T\n",returned)
+    fmt.Println(returned)
 }
 #+end_src
-The following code would return an interface, but that interface can hold any type, since it wont be known until execution as to
-what its return type is. 
+The following function in ~unknown()~ could return a ~bool~, ~string~, or an ~int~. This is useful to get
+around the limitations of a statically typed language. If you want to ensure the type returned is
+the value type you're looking for, check into type assertions. The code would output one of the following:
+
+*** If the number is less than 0:
+#+begin_src 
+Type of returned: bool
+true
+#+end_src
+*** If the number is equal to 0:
+#+begin_src
+Type of returned: string
+Equal to 0
+#+end_src
+*** If the number is more than 0:
+#+begin_src 
+Type of returned: int
+1
+#+end_src
+

@@ -57,7 +57,6 @@ import "fmt"
 
 type Animal interface {
     eat() error
-    sleep() error
 }
 type Cat struct {
     hungry bool
@@ -79,7 +78,7 @@ func(dog Dog) eat() error {
 }
 func live(animal Animal) error {
     animal.eat()
-    animal.sleep()
+    return nil
 }
 func main() {
     cat := Cat{hungry: true, tired: true}
@@ -93,7 +92,7 @@ Would output:
 The cat is eating
 The dog is eating
 #+end_src
-Because both cat and dog have both ~sleep()~ and ~eat()~ methods which return errors, they automatically implement the interface,
+Because both cat and dog has the ~eat()~ method, which return errors, they automatically implement the interface,
 and can be passed to the ~live()~ function
 
 * Empty interfaces

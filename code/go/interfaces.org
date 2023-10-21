@@ -1,7 +1,15 @@
 #+TITLE: Golang Interfaces
 #+STARTUP: showeverything
+#+OPTIONS: toc:2
 
-* Overview
+* Table of Contents :toc:
+- [[#interfaces][Interfaces]]
+- [[#empty-interfaces][Empty interfaces]]
+  - [[#empty-interface-as-a-return-value][Empty interface as a return value]]
+  - [[#empty-interface-as-a-paramter][Empty interface as a paramter]]
+  - [[#type-assertion][Type Assertion]]
+
+* Interfaces 
 An interface is applied to all structs automatically, so long as they share the have the values specified in
 the interface. For example, if we make the following struct:
 #+begin_src go
@@ -88,6 +96,7 @@ Because both cat and dog have both ~sleep()~ and ~eat()~ methods which return er
 and can be passed to the ~live()~ function
 
 * Empty interfaces
+** Empty interface as a return value
 An empty interface is basically a blank slate, represented by ~interface {}~, these are useful for passing a value
 of a varying type. For instance:
 #+begin_src go
@@ -122,19 +131,77 @@ The following function in ~unknown()~ could return a ~bool~, ~string~, or an ~in
 around the limitations of a statically typed language. If you want to ensure the type returned is
 the value type you're looking for, check into type assertions. The code would output one of the following:
 
-*** If the number is less than 0:
+**** If the number is less than 0:
 #+begin_src 
 Type of returned: bool
 true
 #+end_src
-*** If the number is equal to 0:
+**** If the number is equal to 0:
 #+begin_src
 Type of returned: string
 Equal to 0
 #+end_src
-*** If the number is more than 0:
+**** If the number is more than 0:
 #+begin_src 
 Type of returned: int
 1
 #+end_src
+** Empty interface as a paramter
+Similar to how an empty interface can be used as a return type, we can also use it as a paramter for a function, where we might not know the type it will be sent
+For example:
+#+begin_src go
+package main
 
+import "fmt"
+
+func unknown(i interface{}) {
+    fmt.Println(i)
+}
+func main() {
+    unknown("Hello!")
+}
+#+end_src
+This would output:
+#+begin_src 
+Hello!
+#+end_src
+Sometimes, since the type is unknown on an interface until runtime, you may want to check its type
+value to ensure there are no errors. This is called type assertion.
+** Type Assertion
+Using the code from above, we can use a type assertion to ensure we are pulling the correct value we want
+from the interface. A type assertion, noted by the ~.(string)~ for example, will return a value from the interface
+that matches the type being asserted. For an example:
+#+begin_src go
+package main
+
+import "fmt"
+
+func unknown(i interface{}) {
+    value, ok := i.(string)
+    fmt.Printf("Type of value: %T\n", value)
+    fmt.Printf("Type of ok: %T\n", ok)
+    fmt.Println(value)
+    fmt.Println(ok)
+}
+func main() {
+    unknown("Hello!")
+}
+#+end_src
+This code would output:
+#+begin_src 
+Type of value: string
+Type of ok: bool
+Hello!
+true
+#+end_src
+If we were to change the value passed to the ~unknown()~ function from ~"Hello"~ to ~1~, we would get the
+following results instead:
+#+begin_src 
+Type of value: string
+Type of ok: bool
+
+false
+#+end_src
+In this scenario, asserting the ~string~ type from ~i~ results in the ~value~ returning an empty string, because
+a string was never defined for the interface. ~ok~ also returns false this type, inferring that a value of type
+~string~ could not be pulled from the interface.

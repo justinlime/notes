@@ -1,0 +1,52 @@
+#+TITLE: Golang Pointers
+#+STARTUP: showeverything
+
+* Pointers
+A pointer points to a specific memory address instead of just the variable's value. Pointers are useful
+when you are trying to manipulate a variable itself, not just its value. Pointers are declared by using the
+~&~ symbol. The ~*~ symbol is used to dereference the pointer and retreive its value. For Example:
+#+begin_src go
+package main
+import "fmt"
+
+// Adds one to the variable
+func add_one(i int) {
+    i++
+}
+
+func main() {
+    var i int
+    i = 10 
+    add_one(i)
+    fmt.Println(i)
+}
+#+end_src
+The code above would return:
+#+begin_src 
+10
+#+end_src
+This is because we are sending the function a copy of the variable, not the variable itself. To do that, we use 
+a pointer:
+#+begin_src go
+package main
+import "fmt"
+
+// Adds one to the variable
+// *int shows its expecting a pointer to an integer value
+func add_one(i *int) {
+    *i++ //* used to dereference the pointer, and retreive its value in memory
+}
+
+func main() {
+    var i int
+    i = 10 
+    // using & to create a pointer to the variable's value
+    add_one(&i)
+    fmt.Println(i)
+}
+#+end_src
+Now that we are using pointers, the function can directly reference the variable's value in memory, and
+manipulate it. The code above would output:
+#+begin_src
+11
+#+end_src

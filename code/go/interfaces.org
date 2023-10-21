@@ -112,9 +112,9 @@ func unknown(i int) interface{} {
 }
 
 func main() {
-		// Random number between -5 and 5
+    // Random number between -5 and 5
     returned := unknown(rand.Intn(11) - 5)
-		fmt.Printf("Type of returned: %T\n",returned)
+    fmt.Printf("Type of returned: %T\n",returned)
     fmt.Println(returned)
 }
 #+end_src

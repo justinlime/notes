@@ -1,0 +1,107 @@
+#+TITLE: Golang Interfaces
+#+STARTUP: showeverything
+
+* Overview
+An interface is applied to all structs automatically, so long as they share the have the values specified in
+the interface. For example, if we make the following struct:
+#+begin_src go
+type Animal interface {
+    eat() error
+    sleep() error
+}
+#+end_src
+Then any struct that contains methods ~eat()~ and ~sleep()~ where each returns an ~error~, will have the interface applied.
+The following struct would have the interface mentioned above applied automatically:
+#+begin_src go
+type Cat struct {
+    hungry bool
+    tired bool
+}
+func(cat Cat) eat() error {
+    fmt.Println("The cat is eating")
+    cat.hungry = false
+    return nil
+}
+func(cat Cat) sleep() error {
+    fmt.Println("The cat is sleeping")
+    cat.tired = false
+    return nil
+}
+#+end_src
+But the following would not, because it does not implement all the attributes of the interface:
+#+begin_src go
+type Cat struct {
+    hungry bool
+    tired bool
+}
+func(cat Cat) eat() error {
+    fmt.Println("The cat is eating")
+    cat.hungry = false
+    return nil
+}
+#+end_src
+If the interface applied to a struct, you can pass the struct to a function that expects the interface applied as a parameter,
+such as:
+#+begin_src go
+package main
+import "fmt"
+
+type Animal interface {
+    eat() error
+    sleep() error
+}
+type Cat struct {
+    hungry bool
+    tired bool
+}
+type Dog struct {
+    hungry bool
+    tired bool
+}
+func(cat Cat) eat() error {
+    fmt.Println("The cat is eating")
+    cat.hungry = false
+    return nil
+}
+func(dog Dog) eat() error {
+    fmt.Println("The dog is eating")
+    dog.hungry = false
+    return nil
+}
+func live(animal Animal) error {
+    animal.eat()
+    animal.sleep()
+}
+func main() {
+    cat := Cat{hungry: true, tired: true}
+    dog := Dog{hungry: true, tired: true}
+    live(cat)
+    live(dog)
+}
+#+end_src
+Would output:
+#+begin_src 
+The cat is eating
+The dog is eating
+#+end_src
+Because both cat and dog have both ~sleep()~ and ~eat()~ methods which return errors, they automatically implement the interface,
+and can be passed to the ~live()~ function
+
+* Empty interfaces
+An empty interface is basically a blank slate, represented by ~interface {}~, these are useful for passing a value
+of a varying type. For instance:
+#+begin_src go
+func unknown(i int) interface{} {
+    if i < 0 {
+      return true
+    }
+    if i == 0 {
+      return "Equal to 0"
+    }
+    if i > 0 {
+      return 1
+    }
+}
+#+end_src
+The following code would return an interface, but that interface can hold any type, since it wont be known until execution as to
+what its return type is. 

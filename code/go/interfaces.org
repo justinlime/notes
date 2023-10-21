@@ -5,9 +5,10 @@
 * Table of Contents :toc:
 - [[#interfaces][Interfaces]]
 - [[#empty-interfaces][Empty interfaces]]
+  - [[#empty-interface-as-a-variable][Empty interface as a variable]]
   - [[#empty-interface-as-a-return-value][Empty interface as a return value]]
   - [[#empty-interface-as-a-paramter][Empty interface as a paramter]]
-  - [[#type-assertion][Type Assertion]]
+- [[#type-assertion][Type Assertion]]
 
 * Interfaces 
 An interface is applied to all structs automatically, so long as they share the have the values specified in
@@ -96,9 +97,33 @@ Because both cat and dog have both ~sleep()~ and ~eat()~ methods which return er
 and can be passed to the ~live()~ function
 
 * Empty interfaces
-** Empty interface as a return value
+** Empty interface as a variable
 An empty interface is basically a blank slate, represented by ~interface {}~, these are useful for passing a value
 of a varying type. For instance:
+#+begin_src go
+package main
+import "fmt"
+
+func main() {
+		var i interface{}
+		i = 1
+		fmt.Printf("Type of i: %T\n",i)
+		fmt.Println(i)
+}
+#+end_src
+This code would output:
+#+begin_src 
+Type of i: int
+1
+#+end_src
+changing ~i = 1~ to ~i = "Hello"~ would result in the following:
+#+begin_src 
+Type of i: string
+Hello
+#+end_src
+** Empty interface as a return value
+These empty interfaces can be used as a return value as well, when returning a varying type.
+Example:
 #+begin_src go
 package main
 
@@ -167,7 +192,7 @@ Hello!
 #+end_src
 Sometimes, since the type is unknown on an interface until runtime, you may want to check its type
 value to ensure there are no errors. This is called type assertion.
-** Type Assertion
+* Type Assertion
 Using the code from above, we can use a type assertion to ensure we are pulling the correct value we want
 from the interface. A type assertion, noted by the ~.(string)~ for example, will return a value from the interface
 that matches the type being asserted. For an example:
@@ -203,5 +228,5 @@ Type of ok: bool
 false
 #+end_src
 In this scenario, asserting the ~string~ type from ~i~ results in the ~value~ returning an empty string, because
-a string was never defined for the interface. ~ok~ also returns false this type, inferring that a value of type
+a string was never defined for the interface. ~ok~ also returns false this time, inferring that a value of type
 ~string~ could not be pulled from the interface.

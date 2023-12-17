@@ -1,0 +1,5 @@
+:PROPERTIES:
+:ID:       22ddb07d-ed79-434f-b1dc-85da312331b4
+:END:
+#+title: Elisp
+* Elisp Notes

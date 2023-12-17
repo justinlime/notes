@@ -1,19 +1,71 @@
-#+TITLE: Golang Interfaces
+:PROPERTIES:
+:ID:       50bac125-a92a-4895-98be-ffb226a2ebd6
+:END:
+#+title: Golang
 #+STARTUP: showeverything
 #+OPTIONS: toc:2
 
 * Table of Contents :toc:
+- [[#pointers][Pointers]]
 - [[#interfaces][Interfaces]]
-- [[#empty-interfaces][Empty interfaces]]
-  - [[#empty-interface-as-a-variable][Empty interface as a variable]]
-  - [[#empty-interface-as-a-return-value][Empty interface as a return value]]
-  - [[#empty-interface-as-a-paramter][Empty interface as a paramter]]
-- [[#type-assertion][Type Assertion]]
+  - [[#empty-interfaces][Empty interfaces]]
+  - [[#type-assertion][Type Assertion]]
+
+* Pointers
+A pointer points to a specific memory address instead of just the variable's value. Pointers are useful
+when you are trying to manipulate a variable itself, not just its value. Pointers are declared by using the
+~&~ symbol. The ~*~ symbol is used to dereference the pointer and retreive its value. For Example:
+#+begin_src go-ts
+package main
+import "fmt"
+
+// Adds one to the variable
+func add_one(i int) {
+    i++
+}
+
+func main() {
+    var i int
+    i = 10 
+    add_one(i)
+    fmt.Println(i)
+}
+#+end_src
+The code above would return:
+#+begin_src 
+10
+#+end_src
+This is because we are sending the function a copy of the variable, not the variable itself. To do that, we use 
+a pointer:
+#+begin_src go-ts
+package main
+import "fmt"
+
+// Adds one to the variable
+// *int shows its expecting a pointer to an integer value
+func add_one(i *int) {
+    *i++ //* used to dereference the pointer, and retreive its value in memory
+}
+
+func main() {
+    var i int
+    i = 10 
+    // using & to create a pointer to the variable's value
+    add_one(&i)
+    fmt.Println(i)
+}
+#+end_src
+Now that we are using pointers, the function can directly reference the variable's value in memory, and
+manipulate it. The code above would output:
+#+begin_src
+11
+#+end_src
+
 
 * Interfaces 
 An interface is applied to all structs automatically, so long as they share the have the values specified in
 the interface. For example, if we make the following struct:
-#+begin_src go
+#+begin_src go-ts
 type Animal interface {
     eat() error
     sleep() error
@@ -21,7 +73,7 @@ type Animal interface {
 #+end_src
 Then any struct that contains methods ~eat()~ and ~sleep()~ where each returns an ~error~, will have the interface applied.
 The following struct would have the interface mentioned above applied automatically:
-#+begin_src go
+#+begin_src go-ts
 type Cat struct {
     hungry bool
     tired bool
@@ -38,7 +90,7 @@ func(cat Cat) sleep() error {
 }
 #+end_src
 But the following would not, because it does not implement all the attributes of the interface:
-#+begin_src go
+#+begin_src go-ts
 type Cat struct {
     hungry bool
     tired bool
@@ -51,7 +103,7 @@ func(cat Cat) eat() error {
 #+end_src
 If the interface applied to a struct, you can pass the struct to a function that expects the interface applied as a parameter,
 such as:
-#+begin_src go
+#+begin_src go-ts
 package main
 import "fmt"
 
@@ -95,11 +147,11 @@ The dog is eating
 Because both cat and dog has the ~eat()~ method, which return errors, they automatically implement the interface,
 and can be passed to the ~live()~ function
 
-* Empty interfaces
-** Empty interface as a variable
+** Empty interfaces
+*** Empty interface as a variable
 An empty interface is basically a blank slate, represented by ~interface {}~, these are useful for passing a value
 of a varying type. For instance:
-#+begin_src go
+#+begin_src go-ts
 package main
 import "fmt"
 
@@ -120,10 +172,10 @@ changing ~i = 1~ to ~i = "Hello"~ would result in the following:
 Type of i: string
 Hello
 #+end_src
-** Empty interface as a return value
+*** Empty interface as a return value
 These empty interfaces can be used as a return value as well, when returning a varying type.
 Example:
-#+begin_src go
+#+begin_src go-ts
 package main
 
 import (
@@ -155,25 +207,25 @@ The following function in ~unknown()~ could return a ~bool~, ~string~, or an ~in
 around the limitations of a statically typed language. If you want to ensure the type returned is
 the value type you're looking for, check into type assertions. The code would output one of the following:
 
-**** If the number is less than 0:
+***** If the number is less than 0:
 #+begin_src 
 Type of returned: bool
 true
 #+end_src
-**** If the number is equal to 0:
+***** If the number is equal to 0:
 #+begin_src
 Type of returned: string
 Equal to 0
 #+end_src
-**** If the number is more than 0:
+***** If the number is more than 0:
 #+begin_src 
 Type of returned: int
 1
 #+end_src
-** Empty interface as a paramter
+*** Empty interface as a paramter
 Similar to how an empty interface can be used as a return type, we can also use it as a paramter for a function, where we might not know the type it will be sent
 For example:
-#+begin_src go
+#+begin_src go-ts
 package main
 
 import "fmt"
@@ -191,11 +243,11 @@ Hello!
 #+end_src
 Sometimes, since the type is unknown on an interface until runtime, you may want to check its type
 value to ensure there are no errors. This is called type assertion.
-* Type Assertion
+** Type Assertion
 Using the code from above, we can use a type assertion to ensure we are pulling the correct value we want
 from the interface. A type assertion, noted by the ~.(string)~ for example, will return a value from the interface
 that matches the type being asserted. For an example:
-#+begin_src go
+#+begin_src go-ts
 package main
 
 import "fmt"
@@ -228,4 +280,28 @@ false
 #+end_src
 In this scenario, asserting the ~string~ type from ~i~ results in the ~value~ returning an empty string, because
 a string was never defined for the interface. ~ok~ also returns false this time, inferring that a value of type
-~string~ could not be pulled from the interface.
+~string~ could not be pulled from the interface. This can be usefully for type-checking. If there are multiple values
+you wanted to check for, you can use a switch statement:
+#+begin_src go-ts
+package main
+
+import "fmt"
+
+func unknown(i interface{}) {
+	switch value := i.(type){
+    case int:
+        fmt.Printf("The value is a int! %T\n", value)
+    case string:
+        fmt.Printf("The value is a string! %T\n", value)
+    default:
+        fmt.Println("I dont know what the type is")
+		}
+}
+func main() {
+    unknown("Hello!")
+}
+#+end_src
+Here we get:
+#+begin_src
+The value is a string! string
+#+end_src

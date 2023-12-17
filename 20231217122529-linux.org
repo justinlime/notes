@@ -8,6 +8,9 @@
   - [[#overview][Overview]]
   - [[#permission-values][Permission Values]]
   - [[#checking-permissions][Checking Permissions]]
+- [[#user-and-group-creation][User and Group creation]]
+  - [[#users][Users]]
+  - [[#groups][Groups]]
 - [[#ssh][SSH]]
   - [[#ssh-1][SSH]]
   - [[#sshd][SSHD]]
@@ -96,7 +99,43 @@ This signifies which group on the system owns the file. The following 3 characte
 permissions are the groups permissions. 
 *** Other
 This signifies any other user/group not defined in the previous permission values. 
+* User and Group creation
+** Users
+Users on linux can be created by a variety of means. On most distrubitions, you can use the ~useradd~ command
+for this purpose:
+#+begin_src bash
+sudo useradd -m -s /bin/bash justinlime
+#+end_src
+The example given will create a user AND a group named ~justinlime~, using the $SHELL ~/bin/bash~.
+the ~-m~ flag creates a home directory for the user, found in ~/home/justinlime~.
 
+If you intend to use this user yourself interactively, you'll want to set a password for the user, this can be done
+using:
+#+begin_src bash
+sudo passwd justinlime
+#+end_src
+If you want the user to have sudo permissions, you would want to add the user to either the ~wheel~ or the
+~sudo~ group, depending on the distribution. This can be done with the ~usermod~ command as shown here:
+#+begin_src bash
+sudo usermod -aG wheel justinlime
+#or
+sudo usermod -aG sudo justinlime
+#+end_src
+The ~a~ flag means to append, and the ~G~ flag signifies group.
+
+After this is done, you can switch to your newly created user with the ~su~ (switch user) command:
+#+begin_src bash
+su justinlime
+#+end_src
+** Groups
+Similar to how users are created, if you just want to create a group in linux, you can use the ~groupadd~ command.
+#+begin_src bash
+sudo groupadd users
+#+end_src
+This command would create a ~users~ group, then you can add a user to the group with the ~usermod~ command:
+#+begin_src bash
+sudo usermod -aG users justinlime
+#+end_src
 * SSH
 ** SSH
 SSH is the client side service for OpenSSH to connect to a listening SSHD. It is highly suggested to use
@@ -135,6 +174,37 @@ ssh -i ~/path/to/your_private_key username@machine_ip
 #+end_src
 The ~-i~ flag tells ssh to use a ~Indentity File~ instead of a password. After using the command you will be prompted
 for the key-file's password if it has one set for it.
+*** SSH Config
+SSH has an optional config file for ssh connections. You can pre-define hosts to connect to in this config file,
+which is found in ~"/home/username/.ssh/config"~. You can add an entry in the following format:
+#+begin_src bash
+Host {name}
+  User {username}
+	Hostname {host_ip}
+	PreferredAuthentications {authentication_type}
+	IdentityFile {path_to_key_file}
+#+end_src
+A filled out example:
+#+begin_src bash
+Host server
+  User justinlime
+	Hostname 192.168.4.59
+	PreferredAuthentications publickey
+	IdentityFile ~/.ssh/server
+#+end_src
+This configuration defines an ssh connection to the host ~server~ at the IP of ~192.168.4.59~ using the
+authentication type of ~publickey~ (which uses the key-files) and defines the identity file's location at
+~"/home/justinlime/.ssh/server"~.
+
+With this in place, instead of having to ssh using:
+#+begin_src bash
+ssh -i ~/.ssh/server justinlime@192.168.4.59
+#+end_src
+You could instead just type:
+#+begin_src bash
+ssh server
+#+end_src
+More information for the ssh config file can be found [[https://www.ssh.com/academy/ssh/config][Here]]
 
 ** SSHD
 *** Overview

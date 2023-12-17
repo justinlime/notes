@@ -4,8 +4,10 @@
 #+title: Linux
 
 * Table of Contents :toc:
-- [[#permissions][Permissions]]
+- [[#enviroment-variables][Enviroment Variables]]
   - [[#overview][Overview]]
+- [[#permissions][Permissions]]
+  - [[#overview-1][Overview]]
   - [[#permission-values][Permission Values]]
   - [[#checking-permissions][Checking Permissions]]
 - [[#user-and-group-creation][User and Group creation]]
@@ -14,6 +16,35 @@
 - [[#ssh][SSH]]
   - [[#ssh-1][SSH]]
   - [[#sshd][SSHD]]
+
+* Enviroment Variables
+** Overview
+Environment variable are a core concept when working with linux. Youll see them tossed around and used in
+a variety of locations. They can be distinguished by their unique ~$~ character at the beginning of the
+variable's definition, and capitalized structure. Some of the most common you'll see used are:
+  - $HOME = Where the current users' home directory is located, interchangeable with the ~ symbol
+  - $PATH = The directories to consider the the users PATH.
+  - $SHELL = What shell is currently in use
+  - $TERM = What terminal is currently in use
+
+These environment variables are specific to the user's current environment. Many programs take use of these for a
+variety of purposed. Here are more detailed descriptions for some of those common variable I mentioned before.
+*** $HOME
+This variable is one of the most commonly used. It denotes where the current user's home directory is located.
+For example, if I were a user named ~justinlime~ and used the following command:
+#+begin_src bash
+echo $HOME
+#+end_src
+it would most likely output something such as this:
+#+begin_src 
+/home/justinlime
+#+end_src
+Typically this wouldn't be a variable you'd want to modify. There is a shorthand for ~$HOME~ which is the ~ key.
+It can be used interchangeably with $HOME. If you were to use:
+#+begin_src bash
+echo ~ 
+#+end_src
+It would have the exact same results
 
 * Permissions
 ** Overview

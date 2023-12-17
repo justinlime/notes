@@ -27,8 +27,34 @@ variable's definition, and capitalized structure. Some of the most common you'll
   - $SHELL = What shell is currently in use
   - $TERM = What terminal is currently in use
 
+You can view the value of one of these variables using the echo command, such as:
+#+begin_src bash
+echo $HOME
+#+end_src
+
 These environment variables are specific to the user's current environment. Many programs take use of these for a
 variety of purposed. Here are more detailed descriptions for some of those common variable I mentioned before.
+*** $PATH
+Path in linux is where the command line will search for executables. For instance, many commands
+like ~whoami~ and ~df~ are all usable from the command line, because they are in your PATH. ~$PATH~ is
+typically a series of directories, not just one. To demonstrate, ~$PATH~, if we run the command:
+#+begin_src bash
+which df
+#+end_src
+This output the directory where the ~whoami~ program is located, in my case that would be:
+#+begin_src bash
+/usr/bin/df
+#+end_src
+Now, Lets check out ~$PATH~:
+#+begin_src bash
+echo $PATH
+#+end_src
+~$PATH~ can vary from system to system. In my case, it outputs:
+#+begin_src bash
+/usr/local/bin:/usr/bin:/bin:/usr/games
+#+end_src
+So since /usr/bin is in our ~$PATH~, we can execute in programs within that directory using just the name of
+the program, in this instance ~df~
 *** $HOME
 This variable is one of the most commonly used. It denotes where the current user's home directory is located.
 For example, if I were a user named ~justinlime~ and used the following command:

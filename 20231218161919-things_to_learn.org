@@ -1,0 +1,21 @@
+:PROPERTIES:
+:ID:       d00d1cf5-04b1-4c5e-8a34-c8d4de7d0b15
+:END:
+#+title: Things to Learn
+* Table of Contents :toc:
+- [[#ipv6][IPv6]]
+- [[#windows-permissions-and-domains][Windows permissions and domains]]
+- [[#how-openvpnwireguard-work][How OpenVPN/Wireguard work]]
+- [[#windows-registry][Windows Registry]]
+
+* IPv6
+I understand the gist of IPv4 but am not sure how IPv6 works exactly
+* Windows permissions and domains
+I have know idea how window's permission system works, and also what domains are
+capable of
+* How OpenVPN/Wireguard work
+I use them all the time, but I'm not sure exactly how they work the way they do.
+* Windows Registry
+I know this is very important but can also nuke your system if youre not safe or
+undstand what youre doing.
+

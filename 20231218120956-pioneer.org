@@ -1,0 +1,31 @@
+:PROPERTIES:
+:ID:       a391e0c4-012d-458a-a203-cab6c21a043e
+:END:
+#+title: Pioneer
+* Table of Contents :toc:
+- [[#windows-run-commands][Windows run commands:]]
+  - [[#ncpacpl][ncpa.cpl]]
+  - [[#servicesmsc][services.msc]]
+  - [[#eventvwr][eventvwr]]
+  - [[#control][control]]
+  - [[#control-printers][control printers]]
+- [[#command-line-commands][Command line commands:]]
+  - [[#net-users][net users]]
+  - [[#manage-bde--protectors--disable-c--rebootcount-1][manage-bde -protectors -disable C: -RebootCount 1]]
+
+* Windows run commands:
+** ncpa.cpl
+Opens the network adapters in windows directly
+** services.msc
+Opens the services menu in windows directly
+** eventvwr
+Opens the eventvwr in windows directly
+** control
+Opens the control panel directly
+** control printers
+Opens devices and printers section directly
+* Command line commands:
+** net users
+Shows the current users on the workstation
+** manage-bde -protectors -disable C: -RebootCount 1
+Disables bitlocker on the C:/ drive for one restart

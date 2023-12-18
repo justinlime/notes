@@ -4,7 +4,7 @@
 #+title: Linux
 
 * Table of Contents :toc:
-- [[#enviroment-variables][Enviroment Variables]]
+- [[#environment-variables][Environment Variables]]
   - [[#overview][Overview]]
 - [[#permissions][Permissions]]
   - [[#overview-1][Overview]]
@@ -17,7 +17,7 @@
   - [[#ssh-1][SSH]]
   - [[#sshd][SSHD]]
 
-* Enviroment Variables
+* Environment Variables
 ** Overview
 Environment variable are a core concept when working with linux. Youll see them tossed around and used in
 a variety of locations. They can be distinguished by their unique ~$~ character at the beginning of the
@@ -208,7 +208,7 @@ ssh-keygen -f ~/.ssh/your_keyfile_name -t ed25519
 You will then be prompted to input a password. You can leave this empty if you don't want a password locked keyfile.
 In most cases a passwordless key-file is fine, but for the most security its always better to have one.
 
-The ~-f~ flag is used to output the key-pair to a specific directory, in this case, /home/your_username/.ssh.
+The ~-f~ flag is used to output the key-pair to a specific directory, in this case, ~$HOME/.ssh~ (See [[$HOME][$HOME]]).
 The ~-t~ flag is used to specify the encryption type, as mentioned before ed25519 is the most secure as of today.
 You can use ~ssh-keygen --help~ for more information on the command.
 
@@ -307,4 +307,3 @@ To restart SSHD on a linux system that uses SystemD, which is the standard, you 
 sudo systemctl restart sshd
 #+end_src
 After doing so, open a new terminal windows and test your SSH connection to verify everything is working properly.
-

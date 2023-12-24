@@ -10,6 +10,7 @@
   - [[#how-openvpnwireguard-work][How OpenVPN/Wireguard work]]
   - [[#ipv6][IPv6]]
   - [[#vlans][vLans]]
+  - [[#upnp][uPNP]]
 
 * Windows
 ** Windows permissions and domains
@@ -25,5 +26,8 @@ I use them all the time, but I'm not sure exactly how they work the way they do.
 I understand the gist of IPv4 but am not sure how IPv6 works exactly
 ** vLans
 Just a more clear definition, i only have basic knowledge
+** uPNP
+Apparently this automatically forwards necessary ports when in use when
+you router supports it, I have no idea how that would work.
 
 

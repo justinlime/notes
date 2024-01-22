@@ -1,0 +1,27 @@
+:PROPERTIES:
+:ID:       55806f81-d6c5-440f-b17d-e1aab9b5fb94
+:END:
+#+title: Toggle-Term
+
+* Toggle Term
+** Custom settings:
+*** Seperate functions for showing, closing, and toggling the term
+*** Function to select terminal
+*** Option to switch to buffer upon showing
+*** Option for termnial height percentage
+*** Option for confirm on exit for terminals (steal from term-toggle.el)
+*** Option/function for creating a new toggle term running a specific shell command at startup
+*** Option for what shell to use, default being the env variable $SHELL
+*** Term, Ansi Term, Shell, Eshell options
+** Design
+*** Show Terminal hook
+*** Seperate functions/variables for
+- toggle-window-visible-p or something along those line
+- *toggle- for all package provided buffers  
+- variable and function for getting the current buffer
+- If a complicated alist is required, abstract it for the user
+
+
+** Future thoughts:
+*** Perspective integration, need to do this in a more graceful way
+*** Make this more generalized, such as toggle-buffer or something, not limited to terms

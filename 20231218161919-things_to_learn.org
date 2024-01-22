@@ -16,6 +16,10 @@
 ** Windows permissions and domains
 I have know idea how window's permission system works, and also what domains are
 capable of
++ [X] Test
++ [X] Test2
++ [ ] Test 3
+
 ** Windows Registry
 I know this is very important but can also nuke your system if youre not safe or
 undstand what youre doing.
